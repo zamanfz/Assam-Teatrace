@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assam TeaTrace — Command Center</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        :root {
+            --dashboard-bg: #f4f0e6;
+            --dashboard-paper: #fbfaf6;
+            --dashboard-green: #12382b;
+            --dashboard-dark: #0a241b;
+            --dashboard-gold: #b08a4b;
+            --dashboard-muted: #78847d;
+            --dashboard-line: rgba(18,56,43,.12);
+        }
+
+        body {
+            background: var(--dashboard-bg);
+        }
+
+        .dashboard-page {
+            min-height: 100vh;
+        }
+
+        /* NAV */
+
+        .dashboard-nav-wrap {
+            background: var(--dashboard-green);
+            color: white;
+        }
+
+        .dashboard-nav {
+            width: min(1280px, calc(100% - 56px));
+            margin: auto;
+            height: 88px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dashboard-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dashboard-brand-mark {
+            width: 42px;
+            height: 42px;
+
+            border: 1px solid rgba(255,255,255,.45);
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+        }
+
+        .dashboard-brand strong {
+            display: block;
+            font-size: 15px;
+        }
+
+        .dashboard-brand span {
+            display: block;
+            margin-top: 1px;
+
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+
+            opacity: .55;
+        }
+
+        .dashboard-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .dashboard-link {
+            font-size: 12px;
+            color: rgba(255,255,255,.75);
+            transition: color .2s ease;
+        }
+
+        .dashboard-link:hover {
+            color: white;
+        }
+
+        .network-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 9px 13px;
+
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 999px;
+
+            font-size: 10px;
+        }
+
+        .network-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #8fc9a7;
+        }
+
+        /* MAIN */
+
+        .dashboard-container {
+            width: min(1280px, calc(100% - 56px));
+            margin: auto;
+            padding: 80px 0 100px;
+        }
+
+        .dashboard-intro {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            margin-bottom: 50px;
+        }
+
+        .dashboard-intro .eyebrow {
+            color: var(--dashboard-gold);
+            margin-bottom: 12px;
+        }
+
+        .dashboard-intro h1 {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(52px, 6vw, 78px);
+            line-height: .94;
+
+            letter-spacing: -.05em;
+            font-weight: 600;
+
+            color: var(--dashboard-green);
+        }
+
+        .dashboard-intro p {
+            max-width: 410px;
+
+            margin-top: 18px;
+
+            color: var(--dashboard-muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .dashboard-date {
+            text-align: right;
+            color: var(--dashboard-muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .13em;
+        }
+
+        /* STATISTICS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+
+            margin-bottom: 45px;
+        }
+
+        .stat-card {
+            position: relative;
+
+            min-height: 175px;
+
+            background: var(--dashboard-paper);
+
+            border: 1px solid var(--dashboard-line);
+            border-radius: 22px;
+
+            padding: 25px;
+
+            overflow: hidden;
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 45px rgba(18,56,43,.08);
+        }
+
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            right: -30px;
+            bottom: -50px;
+
+            width: 130px;
+            height: 130px;
+
+            border: 1px solid rgba(176,138,75,.16);
+            border-radius: 50%;
+        }
+
+        .stat-number {
+            font-family: "Playfair Display", serif;
+            font-size: 53px;
+            line-height: 1;
+
+            color: var(--dashboard-green);
+
+            margin: 15px 0 8px;
+        }
+
+        .stat-label {
+            color: var(--dashboard-muted);
+
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .13em;
+        }
+
+        .stat-index {
+            color: var(--dashboard-gold);
+
+            font-size: 9px;
+            letter-spacing: .14em;
+        }
+
+        /* GRID */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns: 1.45fr .85fr;
+
+            gap: 14px;
+
+            margin-bottom: 14px;
+        }
+
+        .dashboard-card {
+            background: var(--dashboard-paper);
+
+            border: 1px solid var(--dashboard-line);
+            border-radius: 24px;
+
+            padding: 32px;
+
+            min-height: 300px;
+        }
+
+        .card-label {
+            color: var(--dashboard-gold);
+
+            font-size: 9px;
+            font-weight: 700;
+
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        .dashboard-card h2 {
+            font-family: "Playfair Display", serif;
+
+            color: var(--dashboard-green);
+
+            font-size: 31px;
+            line-height: 1;
+
+            margin-top: 9px;
+        }
+
+        .card-description {
+            color: var(--dashboard-muted);
+            font-size: 12px;
+
+            margin-top: 8px;
+        }
+
+        /* SUPPLY CHAIN */
+
+        .chain {
+            display: flex;
+            align-items: center;
+
+            margin-top: 38px;
+
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .chain-node {
+            min-width: 82px;
+            text-align: center;
+        }
+
+        .chain-icon {
+            width: 54px;
+            height: 54px;
+
+            margin: auto auto 9px;
+
+            border-radius: 50%;
+
+            background: var(--dashboard-green);
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+        .chain-node span {
+            font-size: 10px;
+            color: var(--dashboard-muted);
+            white-space: nowrap;
+        }
+
+        .chain-arrow {
+            color: var(--dashboard-gold);
+            font-size: 19px;
+            padding: 0 3px;
+        }
+
+        /* HEALTH */
+
+        .health-list {
+            margin-top: 25px;
+        }
+
+        .health-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 14px 0;
+
+            border-bottom: 1px solid var(--dashboard-line);
+
+            font-size: 12px;
+        }
+
+        .health-item:last-child {
+            border-bottom: none;
+        }
+
+        .health-status {
+            color: #4d8c67;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .05em;
+        }
+
+        /* ACTIVITY */
+
+        .activity-list {
+            margin-top: 20px;
+        }
+
+        .activity {
+            display: flex;
+            gap: 13px;
+
+            padding: 14px 0;
+
+            border-bottom: 1px solid var(--dashboard-line);
+        }
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+        .activity-mark {
+            width: 29px;
+            height: 29px;
+
+            border-radius: 50%;
+
+            background: #e4ede3;
+            color: #46775a;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 12px;
+        }
+
+        .activity strong {
+            display: block;
+
+            color: var(--dashboard-green);
+
+            font-size: 12px;
+        }
+
+        .activity small {
+            display: block;
+
+            margin-top: 2px;
+
+            color: var(--dashboard-muted);
+            font-size: 10px;
+        }
+
+        /* COMPLIANCE */
+
+        .compliance-panel {
+            background: var(--dashboard-green);
+            color: white;
+        }
+
+        .compliance-panel h2 {
+            color: white;
+        }
+
+        .compliance-panel .card-description {
+            color: rgba(255,255,255,.55);
+        }
+
+        .compliance-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 10px;
+
+            margin-top: 32px;
+        }
+
+        .compliance-metric {
+            padding: 17px;
+
+            border: 1px solid rgba(255,255,255,.13);
+            border-radius: 15px;
+
+            background: rgba(255,255,255,.035);
+        }
+
+        .compliance-metric strong {
+            display: block;
+
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+        }
+
+        .compliance-metric span {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+
+            color: rgba(255,255,255,.52);
+        }
+
+        /* DEMO */
+
+        .demo-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        .demo-code {
+            margin-top: 18px;
+
+            display: inline-block;
+
+            padding: 10px 14px;
+
+            border-radius: 9px;
+
+            background: #edf0e9;
+
+            color: var(--dashboard-green);
+
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .demo-actions {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-button {
+            display: inline-flex;
+            align-items: center;
+
+            padding: 12px 17px;
+
+            border-radius: 999px;
+
+            font-size: 10px;
+            font-weight: 600;
+
+            transition: transform .2s ease;
+        }
+
+        .dashboard-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .dashboard-button.primary {
+            background: var(--dashboard-green);
+            color: white;
+        }
+
+        .dashboard-button.secondary {
+            background: var(--dashboard-gold);
+            color: white;
+        }
+
+        /* FOOTER */
+
+        .dashboard-footer {
+            background: var(--dashboard-dark);
+            color: white;
+
+            padding: 35px 0;
+        }
+
+        .footer-inner {
+            width: min(1280px, calc(100% - 56px));
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-inner strong {
+            font-family: "Playfair Display", serif;
+            font-size: 18px;
+        }
+
+        .footer-inner span {
+            color: rgba(255,255,255,.4);
+            font-size: 10px;
+        }
+
+        @media (max-width: 950px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-intro {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .dashboard-date {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .dashboard-nav,
+            .dashboard-container,
+            .footer-inner {
+                width: min(100% - 28px, 1280px);
+            }
+
+            .dashboard-nav {
+                height: 78px;
+            }
+
+            .dashboard-link {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat-card {
+                min-height: 145px;
+                padding: 20px;
+            }
+
+            .stat-number {
+                font-size: 42px;
+            }
+
+            .dashboard-card {
+                padding: 24px;
+            }
+
+            .demo-card {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .compliance-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="dashboard-page">
+
+
+    <!-- NAVIGATION -->
+
+    <header class="dashboard-nav-wrap">
+
+        <div class="dashboard-nav">
+
+            <a href="index.html" class="dashboard-brand">
+
+                <div class="dashboard-brand-mark">
+                    T
+                </div>
+
+                <div>
+                    <strong>Assam TeaTrace</strong>
+                    <span>Command Center</span>
+                </div>
+
+            </a>
+
+
+            <div class="dashboard-nav-right">
+
+                <a
+                    href="trace.html?code=TEA-PKG-0001"
+                    class="dashboard-link"
+                >
+                    Trace Explorer →
+                </a>
+
+                <a
+                    href="index.html?code=TEA-PKG-0001"
+                    class="dashboard-link"
+                >
+                    Consumer View →
+                </a>
+
+                <div class="network-status">
+                    <span class="network-dot"></span>
+                    System Online
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="dashboard-container">
+
+
+        <!-- INTRO -->
+
+        <section class="dashboard-intro">
+
+            <div>
+
+                <span class="eyebrow">
+                    01 / CONTROL CENTER
+                </span>
+
+                <h1>
+                    Supply chain<br>
+                    intelligence.
+                </h1>
+
+                <p>
+                    Monitor provenance, compliance and system
+                    integrity across the Assam TeaTrace network.
+                </p>
+
+            </div>
+
+            <div class="dashboard-date">
+                Assam · India<br>
+                Traceability network
+            </div>
+
+        </section>
+
+
+        <!-- STATS -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <span class="stat-index">
+                    01
+                </span>
+
+                <div
+                    class="stat-number"
+                    id="garden-count"
+                >
+                    —
+                </div>
+
+                <div class="stat-label">
+                    Tea Gardens
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-index">
+                    02
+                </span>
+
+                <div
+                    class="stat-number"
+                    id="factory-count"
+                >
+                    —
+                </div>
+
+                <div class="stat-label">
+                    Factory Batches
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-index">
+                    03
+                </span>
+
+                <div
+                    class="stat-number"
+                    id="blend-count"
+                >
+                    —
+                </div>
+
+                <div class="stat-label">
+                    Blend Batches
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-index">
+                    04
+                </span>
+
+                <div
+                    class="stat-number"
+                    id="package-count"
+                >
+                    —
+                </div>
+
+                <div class="stat-label">
+                    Packages
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- SUPPLY CHAIN + HEALTH -->
+
+        <div class="dashboard-grid">
+
+
+            <section class="dashboard-card">
+
+                <span class="card-label">
+                    02 / NETWORK
+                </span>
+
+                <h2>
+                    The journey
+                </h2>
+
+                <p class="card-description">
+                    A connected chain from origin to consumer.
+                </p>
+
+
+                <div class="chain">
+
+
+                    <div class="chain-node">
+
+                        <div class="chain-icon">
+                            🌿
+                        </div>
+
+                        <span>
+                            Garden
+                        </span>
+
+                    </div>
+
+
+                    <div class="chain-arrow">
+                        →
+                    </div>
+
+
+                    <div class="chain-node">
+
+                        <div class="chain-icon">
+                            🏭
+                        </div>
+
+                        <span>
+                            Factory
+                        </span>
+
+                    </div>
+
+
+                    <div class="chain-arrow">
+                        →
+                    </div>
+
+
+                    <div class="chain-node">
+
+                        <div class="chain-icon">
+                            🏬
+                        </div>
+
+                        <span>
+                            Warehouse
+                        </span>
+
+                    </div>
+
+
+                    <div class="chain-arrow">
+                        →
+                    </div>
+
+
+                    <div class="chain-node">
+
+                        <div class="chain-icon">
+                            🔨
+                        </div>
+
+                        <span>
+                            Auction
+                        </span>
+
+                    </div>
+
+
+                    <div class="chain-arrow">
+                        →
+                    </div>
+
+
+                    <div class="chain-node">
+
+                        <div class="chain-icon">
+                            🫖
+                        </div>
+
+                        <span>
+                            Blend
+                        </span>
+
+                    </div>
+
+
+                    <div class="chain-arrow">
+                        →
+                    </div>
+
+
+                    <div class="chain-node">
+
+                        <div class="chain-icon">
+                            📦
+                        </div>
+
+                        <span>
+                            Package
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <section class="dashboard-card">
+
+                <span class="card-label">
+                    03 / SYSTEM
+                </span>
+
+                <h2>
+                    System health
+                </h2>
+
+                <div class="health-list">
+
+
+                    <div class="health-item">
+
+                        <span>
+                            Traceability
+                        </span>
+
+                        <span class="health-status">
+                            ✓ ACTIVE
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-item">
+
+                        <span>
+                            Compliance Engine
+                        </span>
+
+                        <span class="health-status">
+                            ✓ ACTIVE
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-item">
+
+                        <span>
+                            QR Verification
+                        </span>
+
+                        <span class="health-status">
+                            ✓ ACTIVE
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-item">
+
+                        <span>
+                            Audit Integrity
+                        </span>
+
+                        <span
+                            class="health-status"
+                            id="audit-status"
+                        >
+                            CHECKING
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+        <!-- ACTIVITY + COMPLIANCE -->
+
+        <div class="dashboard-grid">
+
+
+            <section class="dashboard-card">
+
+                <span class="card-label">
+                    04 / ACTIVITY
+                </span>
+
+                <h2>
+                    Recent records
+                </h2>
+
+
+                <div class="activity-list">
+
+
+                    <div class="activity">
+
+                        <div class="activity-mark">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Package PKG-0001
+                            </strong>
+
+                            <small>
+                                Traceability record available
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-mark">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Blend BL-0001
+                            </strong>
+
+                            <small>
+                                Blend validation completed
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-mark">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Compliance Engine
+                            </strong>
+
+                            <small>
+                                Rule evaluation active
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-mark">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                QR Verification
+                            </strong>
+
+                            <small>
+                                Public trace endpoint active
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <section class="dashboard-card compliance-panel">
+
+                <span class="card-label">
+                    05 / COMPLIANCE
+                </span>
+
+                <h2>
+                    Verification
+                </h2>
+
+                <p class="card-description">
+                    Current laboratory evaluation across
+                    recorded package tests.
+                </p>
+
+
+                <div class="compliance-metrics">
+
+
+                    <div class="compliance-metric">
+
+                        <strong id="compliance-total">
+                            —
+                        </strong>
+
+                        <span>
+                            Total Tests
+                        </span>
+
+                    </div>
+
+
+                    <div class="compliance-metric">
+
+                        <strong id="compliance-pass">
+                            —
+                        </strong>
+
+                        <span>
+                            Passed
+                        </span>
+
+                    </div>
+
+
+                    <div class="compliance-metric">
+
+                        <strong id="compliance-fail">
+                            —
+                        </strong>
+
+                        <span>
+                            Failed
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <div
+                    style="
+                        margin-top:12px;
+                        color:rgba(255,255,255,.5);
+                        font-size:10px;
+                    "
+                >
+                    Not evaluated:
+                    <strong
+                        id="compliance-not-evaluated"
+                        style="color:white;"
+                    >
+                        —
+                    </strong>
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+        <!-- DEMO PACKAGE -->
+
+        <section class="dashboard-card demo-card">
+
+            <div>
+
+                <span class="card-label">
+                    06 / LIVE DEMO
+                </span>
+
+                <h2>
+                    Explore a package.
+                </h2>
+
+                <p class="card-description">
+                    Open the complete provenance record
+                    for the current demonstration package.
+                </p>
+
+                <div class="demo-code">
+                    PKG-0001 · TEA-PKG-0001
+                </div>
+
+            </div>
+
+
+            <div class="demo-actions">
+
+                <a
+                    href="index.html?code=TEA-PKG-0001"
+                    class="dashboard-button primary"
+                >
+                    Consumer Trace →
+                </a>
+
+                <a
+                    href="trace.html?code=TEA-PKG-0001"
+                    class="dashboard-button secondary"
+                >
+                    Trace Explorer →
+                </a>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="dashboard-footer">
+
+        <div class="footer-inner">
+
+            <strong>
+                Assam TeaTrace
+            </strong>
+
+            <span>
+                Digital provenance for Assam tea · 2026
+            </span>
+
+        </div>
+
+    </footer>
+
+
+</div>
+
+
+<script src="dashboard.js"></script>
+
+</body>
+</html>

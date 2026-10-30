@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assam TeaTrace — From Leaf to Legacy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<header class="site-header">
+    <div class="header-inner">
+
+        <a href="index.html" class="brand">
+            <div class="brand-mark">T</div>
+
+            <div class="brand-copy">
+                <div class="brand-name">Assam TeaTrace</div>
+                <div class="brand-tagline">Digital provenance platform</div>
+            </div>
+        </a>
+
+        <nav class="main-nav">
+            <a href="#origin">Origin</a>
+            <a href="#journey">Journey</a>
+            <a href="#compliance">Verification</a>
+        </nav>
+
+        <div class="header-status">
+            <span class="status-dot"></span>
+            Verified Network
+        </div>
+
+    </div>
+</header>
+
+
+<main>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <div class="hero-copy">
+
+            <div class="eyebrow">
+                ASSAM · INDIA · PROVENANCE
+            </div>
+
+            <h1>
+                From the
+                <em>leaf</em>
+                to your cup.
+            </h1>
+
+            <p class="hero-description">
+                Discover where your tea came from, how it travelled,
+                and the records behind every stage of its journey.
+            </p>
+
+            <div class="hero-actions">
+
+                <a href="#journey" class="primary-button">
+                    Explore the journey
+                    <span>↓</span>
+                </a>
+
+                <div class="verification-note">
+                    <span class="verification-check">✓</span>
+                    QR provenance verified
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="hero-image-card">
+
+                <div class="tea-image-overlay"></div>
+
+                <div class="hero-image-content">
+
+                    <span class="image-label">
+                        ORIGIN VERIFIED
+                    </span>
+
+                    <div class="hero-location">
+                        Assam
+                        <span>India</span>
+                    </div>
+
+                    <div class="hero-coordinate">
+                        27° 28′ N · 94° 55′ E
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="floating-card">
+
+                <div class="floating-icon">✓</div>
+
+                <div>
+                    <small>TRACE STATUS</small>
+                    <strong>Verified</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LIVE TRACE STATUS -->
+<section class="trace-status-section">
+
+    <div class="container">
+
+        <section id="status" class="trace-status-card">
+            Loading trace information...
+        </section>
+
+    </div>
+
+</section>
+
+
+<!-- PACKAGE -->
+<section class="content-section package-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="eyebrow">01 / PRODUCT</span>
+                <h2>The package</h2>
+            </div>
+
+            <span class="section-number">01</span>
+
+        </div>
+
+        <section id="package"></section>
+
+    </div>
+
+</section>
+
+
+<!-- ORIGIN -->
+<section id="origin-section" class="content-section origin-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="eyebrow">02 / ORIGIN</span>
+                <h2>Where it began</h2>
+            </div>
+
+            <span class="section-number">02</span>
+
+        </div>
+
+        <section id="origin"></section>
+
+    </div>
+
+</section>
+
+
+<!-- MAP -->
+<section id="map-section" class="map-section">
+
+    <div class="container">
+
+        <div class="section-heading map-heading">
+
+            <div>
+                <span class="eyebrow">03 / GEOGRAPHY</span>
+                <h2>Tea garden origin</h2>
+            </div>
+
+            <div class="map-badge">
+                ● Location recorded
+            </div>
+
+        </div>
+
+        <div class="map-frame">
+
+            <div id="tea-map"></div>
+
+            <div class="map-overlay-card">
+
+                <span class="eyebrow">SOURCE LOCATION</span>
+
+                <strong>Assam, India</strong>
+
+                <span>
+                    Geographic provenance
+                    recorded in the trace.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- JOURNEY -->
+<section id="journey-section" class="content-section journey-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="eyebrow">04 / SUPPLY CHAIN</span>
+                <h2>Every step matters.</h2>
+            </div>
+
+            <span class="section-number">04</span>
+
+        </div>
+
+        <p class="section-intro">
+            Follow the recorded movement of this tea from its
+            agricultural origin through processing, storage,
+            auction, blending and packaging.
+        </p>
+
+        <section id="journey"></section>
+
+    </div>
+
+</section>
+
+
+<!-- COMPLIANCE -->
+<section id="compliance-section" class="content-section compliance-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="eyebrow">05 / VERIFICATION</span>
+                <h2>Tested. Recorded. Transparent.</h2>
+            </div>
+
+            <span class="section-number">05</span>
+
+        </div>
+
+        <p class="section-intro">
+            Compliance results are evaluated against the
+            authoritative rules stored in the TeaTrace system.
+        </p>
+
+        <section id="compliance"></section>
+
+    </div>
+
+</section>
+
+
+<!-- TRUST -->
+<section class="trust-section">
+
+    <div class="container">
+
+        <div class="trust-card">
+
+            <div class="trust-mark">
+                T
+            </div>
+
+            <div class="trust-copy">
+
+                <span class="eyebrow">
+                    ASSAM TEATRACE
+                </span>
+
+                <h2>
+                    Provenance you can follow.
+                </h2>
+
+                <p>
+                    Assam TeaTrace connects supply-chain records
+                    from tea garden to packaged product, helping
+                    producers, businesses and consumers understand
+                    the journey behind every traceable batch.
+                </p>
+
+            </div>
+
+            <div class="trust-seal">
+                <span>✓</span>
+                <small>TRACE</small>
+                <small>VERIFIED</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+<section class="final-cta">
+
+    <div class="container">
+
+        <div class="cta-inner">
+
+            <span class="eyebrow">
+                KNOW YOUR TEA
+            </span>
+
+            <h2>
+                Every package has<br>
+                a story.
+            </h2>
+
+            <p>
+                Scan. Trace. Verify.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <div class="container">
+
+        <div class="footer-top">
+
+            <div class="footer-brand">
+
+                <div class="brand-mark">T</div>
+
+                <div>
+                    <strong>Assam TeaTrace</strong>
+                    <span>Digital provenance for Assam tea</span>
+                </div>
+
+            </div>
+
+            <div class="footer-status">
+                <span class="status-dot"></span>
+                Traceability network active
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 Assam TeaTrace
+            </span>
+
+            <span>
+                Trace · Verify · Trust
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="app.js"></script>
+
+</body>
+</html>
